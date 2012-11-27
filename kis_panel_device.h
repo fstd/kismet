@@ -93,7 +93,8 @@ public:
 #define KDL_COLOR_DECRYPT			2
 #define KDL_COLOR_HEADER			3
 #define KDL_COLOR_INSECURE			4
-#define KDL_COLOR_MAX				5
+#define KDL_COLOR_WPS				5
+#define KDL_COLOR_MAX				6
 
 class Kis_Devicelist : public Kis_Panel_Component {
 public:

@@ -1598,12 +1598,12 @@ int Kis_80211_Phy::TrackerDot11(kis_packet *in_pack) {
 
 			if (dot11info->subtype == packet_sub_beacon) {
 				if (net->ssid_map.size() == 1) {
-					if (ssid->cryptset & crypt_wps)
+					if (ssid->cryptset & crypt_wep)
+						commondev->crypt_string = "WEP";
+					else if (ssid->cryptset & crypt_wps)
 						commondev->crypt_string = "WPS";
 					else if (ssid->cryptset & crypt_wpa) 
 						commondev->crypt_string = "WPA";
-					else if (ssid->cryptset & crypt_wep)
-						commondev->crypt_string = "WEP";
 				}
 
 				unsigned int ieeerate = 

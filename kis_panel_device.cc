@@ -622,6 +622,10 @@ void Kis_Devicelist::DrawComponent() {
 	parent_panel->ColorFromPref(color_map[KDL_COLOR_INSECURE],
 								"devlist_insecure_color");
 
+	parent_panel->InitColorPref("devlist_wps_color", "hi-yellow,black");
+	parent_panel->ColorFromPref(color_map[KDL_COLOR_WPS],
+								"devlist_wps_color");
+
 	string hdr = colheadercache;
 
 	if (hdr == "") {
@@ -739,8 +743,17 @@ void Kis_Devicelist::DrawComponent() {
 
 			if (common != NULL) {
 				if (common->basic_crypt_set) {
+					if (common->crypt_string == "WEP") {
+						wattrset(window, color_map[KDL_COLOR_INSECURE]);
+					} else if (common->crypt_string == "WPS") {
+						wattrset(window, color_map[KDL_COLOR_WPS]);
+					} else if (common->crypt_string == "WPA") {
+						wattrset(window, color_map[KDL_COLOR_CRYPT]);
+					} else {
+						wattrset(window, color_map[KDL_COLOR_NORMAL]);
+					}
+
 					// fprintf(stderr, "draw %s cryptset %d\n", draw_vec[x]->device->key.Mac2String().c_str(), common->basic_crypt_set);
-					wattrset(window, color_map[KDL_COLOR_CRYPT]);
 				}
 			}
 		}
@@ -1385,6 +1398,7 @@ void Kis_Devicelist::SpawnColorPrefWindow() {
 	cpp->AddColorPref("devlist_decrypt_color", "Decrypted device");
 	cpp->AddColorPref("devlist_header_color", "Column titles");
 	cpp->AddColorPref("devlist_insecure_color", "Insecure device");
+	cpp->AddColorPref("devlist_wps_color", "WPS-enabled device");
 
 	kpinterface->AddPanel(cpp);
 }
