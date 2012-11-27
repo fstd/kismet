@@ -275,6 +275,8 @@ int Dumpfile_Netxml::Flush() {
 				fprintf(xmlfile, "        <encryption>Fortress</encryption>\n");
 			if (m->second->cryptset & crypt_keyguard)
 				fprintf(xmlfile, "        <encryption>Keyguard</encryption>\n");
+			if (m->second->cryptset & crypt_wps)
+				fprintf(xmlfile, "        <encryption>WPS</encryption>\n");
 
 			if (m->second->dot11d_vec.size() > 0) {
 				fprintf(xmlfile, "        <dot11d country=\"%s\">\n",
