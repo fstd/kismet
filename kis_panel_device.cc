@@ -420,6 +420,20 @@ void Kis_Devicelist::DeviceRX(kis_tracked_device *device) {
 			return;
 		}
 
+		// sort of filter (unassociated) clients in network list mode
+		if (display_mode == KDL_DISPLAY_NETWORKS) {
+			const char *n = common->name.c_str();
+			if (strlen(n) == 17) {
+				bool ditch = true;
+				for(int i = 2; i <= 14; i += 3)
+					if (n[i] != ':')
+						ditch = false;
+
+				if (ditch)
+					return;
+			}
+		}
+
 		// Don't add it to our device list if it's not a network
 		// If we're in device mode we get everything so don't filter
 		if (display_mode == KDL_DISPLAY_NETWORKS &&
@@ -1279,6 +1293,20 @@ void Kis_Devicelist::RefreshDisplayList() {
 		if (common == NULL) {
 			// fprintf(stderr, "debug - refresh, no common, skipping\n");
 			continue;
+		}
+
+		// sort of filter (unassociated) clients in network list mode
+		if (display_mode == KDL_DISPLAY_NETWORKS) {
+			const char *n = common->name.c_str();
+			if (strlen(n) == 17) {
+				bool ditch = true;
+				for(int i = 2; i <= 14; i += 3)
+					if (n[i] != ':')
+						ditch = false;
+
+				if (ditch)
+					continue;
+			}
 		}
 
 		// Don't add it to our device list if it's not a network
